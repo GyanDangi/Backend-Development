@@ -1,10 +1,15 @@
 const express = require('express')
 const app = express();
 
+const cookieParser= require('cookie-parser');
+
 require('dotenv').config();
 const PORT = process.env.PORT || 8000
 
+// adding cookie parser:
+// app.use(cookieParser());
 
+// json parser:
 app.use(express.json());
 
 require('./Config/database').Connect();

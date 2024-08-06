@@ -61,7 +61,7 @@ exports.login = async (req,res)=>{
 
 				return res.status(400).json({
 					success:false,
-					message:"Please Enter detail Correctly"
+					message:"Please Enter all detail"
 				})
 			}
 
@@ -81,15 +81,17 @@ exports.login = async (req,res)=>{
 				id:user._id,
 				role:user.role
 			}
-			if(bcrypt.compare(password,user.password)){
+
+			if(await bcrypt.compare(password,user.password)){
 
 				// password match:
 				let token = jwt.sign(payload,process.env.JWT_SECRET,{
-					expiresIn:'2hr'
+					expiresIn:'2h'
 				})
 
 				// cookies ke sath khelne ke liye token bhej denge
 				// user ko token de diya
+				// user= user.toObject();
 				user.token= token;
 				user.password= undefined;
 
@@ -110,7 +112,7 @@ exports.login = async (req,res)=>{
 			}
 			else{
 				// password Not matched:
-				return res.status(402).json({
+				return res.status(403).json({
 					success:false,
 					message:"Please enter correct passowrd"
 				})
