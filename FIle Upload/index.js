@@ -19,7 +19,10 @@ cloudinary.cloudinaryConnect();
 
 // middleware
 app.use(express.json());
-app.use(fileUpload());	
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : '/tmp/'
+}));	
 
 // routes
 const upload = require('./Routes/fileUpload');
